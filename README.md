@@ -122,7 +122,7 @@ calendar entry gets an **Ad** label. If only one of the two dates is set, the ra
 
 ```
 manifest.json            app manifest
-icon.png                 app icon
+icon.svg                 app icon
 widgets/planner/         project tab (calendar + grid)
 widgets/setup/           Project Settings tab (field setup)
 build.py                 builds the release ZIP
