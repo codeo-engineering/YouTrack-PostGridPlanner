@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Post Grid Planner setup</title>
+  <link rel="stylesheet" href="setup.css">
+</head>
+<body>
+  <main class="page">
+    <header class="head">
+      <h1>Post Grid Planner</h1>
+      <p class="lead">These fields power the Instagram grid and calendar in this project.
+        Missing ones can be added for you. Nothing changes until you confirm.</p>
+    </header>
+
+    <section class="card" aria-labelledby="fieldsTitle">
+      <h2 id="fieldsTitle">Fields</h2>
+      <ul class="rows" id="rows"><li class="row muted">Checking this project…</li></ul>
+    </section>
+
+    <section class="card" id="productCard" aria-labelledby="productTitle" hidden>
+      <h2 id="productTitle">Instagram accounts</h2>
+      <p class="hint" id="productHint"></p>
+      <label class="fld">
+        <span id="productLabel">Product names</span>
+        <input type="text" id="productNames" placeholder="e.g. Cortado Coffee, Runners Club">
+      </label>
+    </section>
+
+    <div class="actions">
+      <button class="btn primary" id="applyBtn" type="button" disabled>Set up</button>
+      <button class="btn" id="reloadBtn" type="button">Check again</button>
+      <span class="status" id="status" role="status"></span>
+    </div>
+
+    <section class="card log" id="logCard" hidden aria-labelledby="logTitle">
+      <h2 id="logTitle">Result</h2>
+      <ul class="rows" id="log"></ul>
+    </section>
+  </main>
+
+  <!-- Confirmation (in-page; native dialogs are blocked in the widget sandbox) -->
+  <div class="backdrop" id="confirm" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <h2 id="confirmTitle">Apply these changes?</h2>
+      <ul class="plan" id="plan"></ul>
+      <p class="note" id="sharedNote" hidden></p>
+      <div class="dialog-actions">
+        <button class="btn" id="cancelBtn" type="button">Cancel</button>
+        <button class="btn primary" id="confirmBtn" type="button">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="setup.js"></script>
+</body>
+</html>

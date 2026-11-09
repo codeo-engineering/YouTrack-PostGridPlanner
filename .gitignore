@@ -1,0 +1,5 @@
+# Build output (python3 build.py)
+dist/
+*.zip
+__pycache__/
+.DS_Store

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json.schemastore.org/youtrack-app.json",
+  "name": "post-grid-planner",
+  "title": "Post Grid Planner",
+  "description": "Plan Instagram posts in a calendar and preview them as an Instagram profile grid. Calendar on the right, feed on the left.",
+  "url": "https://github.com/codeo-engineering/YouTrack-PostGridPlanner",
+  "version": "1.9.4",
+  "minYouTrackVersion": "2026.2.0",
+  "changeNotes": "1.9.4: Added the project's GitHub link. 1.9.3: Fixed: users who aren't project admins saw no calendar and no account switcher. Fields are now also read from the project's issues. 1.9.2: The calendar is shown even before setup, with a hint that explains what is missing and who can add it. 1.9.1: The Project Settings tab is no longer hidden by a permission filter. 1.9.0: Renamed to Post Grid Planner. 1.8.0: New Project Settings tab that adds the fields the planner needs (Publish Date, Ad Start Date, Ad End Date, \"Instagram Post\" in Type, optional Product field) after the admin confirms. The planner shows a hint when setup is incomplete. 1.7.0: Marketplace readiness. Links to issues now use the YouTrack context path and open in the same tab. The tab is shown only to users who can read issues. Removed debug output and the development preview from the package. 1.6.0: Publish Date as the post date; Boosted label for posts between Ad Start Date and Ad End Date. 1.5.0: Account switcher by Product / Department.",
+  "vendor": {
+    "name": "Post Grid Planner"
+  },
+  "icon": "icon.png",
+  "widgets": [
+    {
+      "key": "post-grid-planner",
+      "name": "Post Grid Planner",
+      "description": "Content calendar on the right, Instagram feed preview on the left.",
+      "extensionPoint": "PROJECT_TAB",
+      "indexPath": "planner/index.html",
+      "iconPath": "planner/icon.svg",
+      "permissions": [
+        "READ_ISSUE"
+      ],
+      "expectedDimensions": {
+        "height": 1000
+      }
+    },
+    {
+      "key": "post-grid-planner-setup",
+      "name": "Post Grid Planner",
+      "description": "Adds the fields the Post Grid Planner needs to this project.",
+      "extensionPoint": "PROJECT_SETTINGS",
+      "indexPath": "setup/index.html",
+      "iconPath": "setup/icon.svg",
+      "expectedDimensions": {
+        "height": 900
+      }
+    }
+  ]
+}

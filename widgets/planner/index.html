@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Post Grid Planner</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- LEFT: Instagram feed preview -->
+    <aside class="feed-panel" id="feedPanel">
+      <div class="phone">
+        <div class="ig-top">
+          <label class="acct" id="acctSwitch" title="Switch account">
+            <span class="ig-handle" id="igHandle">@project</span>
+            <svg class="chev" viewBox="0 0 24 24" width="14" height="14"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <select id="accountSel" aria-label="Instagram account" hidden></select>
+          </label>
+          <span class="ig-mini-stats" id="igMiniStats"></span>
+          <button class="icon-btn" id="refreshBtn" title="Refresh" aria-label="Refresh">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="ig-profile">
+          <div class="ig-avatar" id="igAvatar">P</div>
+          <div class="ig-stats">
+            <div><b id="statPosts">0</b><span>posts</span></div>
+            <div><b id="statPlanned">0</b><span>scheduled</span></div>
+            <div><b id="statMissing">0</b><span>no image</span></div>
+          </div>
+        </div>
+        <div class="ig-name" id="igName">Project</div>
+        <div class="ig-bio" id="igBio"></div>
+        <div class="ig-tabs">
+          <span class="active" title="Grid">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M3 3h18v18H3zM9 3v18M15 3v18M3 9h18M3 15h18" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          </span>
+        </div>
+        <div class="grid-area" id="gridArea">
+          <div class="grid-viewport" id="gridViewport">
+            <div class="grid" id="grid"></div>
+          </div>
+        </div>
+        <div class="grid-hint" id="gridHint"></div>
+      </div>
+    </aside>
+
+    <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" tabindex="0"
+         title="Drag to resize the feed (double-click: reset)"></div>
+
+    <!-- RIGHT: calendar -->
+    <main class="cal-panel">
+      <header class="cal-head">
+        <div class="cal-title">
+          <h1 id="monthLabel">Month</h1>
+          <span class="field-pill" id="fieldPill" title="Date field"></span>
+        </div>
+        <div class="cal-actions">
+          <label class="toggle" id="igToggleWrap" hidden title="Show only the posts in the selected Instagram feed">
+            <input type="checkbox" id="igToggle"> <span>This feed only</span>
+          </label>
+          <select id="sizeSel" class="btn ghost" title="Calendar row height" aria-label="Calendar row height">
+            <option value="fit">Fit month</option>
+            <option value="90">Rows: small</option>
+            <option value="120">Rows: medium</option>
+            <option value="160">Rows: large</option>
+          </select>
+          <button class="btn ghost" id="todayBtn">Today</button>
+          <div class="seg">
+            <button class="btn ghost" id="prevBtn" aria-label="Previous month">‹</button>
+            <button class="btn ghost" id="nextBtn" aria-label="Next month">›</button>
+          </div>
+          <button class="btn primary" id="newBtn">+ New post</button>
+        </div>
+      </header>
+      <div class="setup-banner" id="setupBanner" role="note" hidden>
+        <span id="setupText"></span>
+        <button class="icon-btn" id="setupClose" type="button" title="Dismiss" aria-label="Dismiss">×</button>
+      </div>
+      <div class="weekdays" id="weekdays"></div>
+      <div class="cal-body" id="calBody">
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+      <div class="status" id="status" role="status"></div>
+    </main>
+    <div class="vresize" id="vresize" role="separator" aria-orientation="horizontal" tabindex="0"
+         title="Drag to resize the height (double-click: auto)"></div>
+  </div>
+
+  <!-- New post / add image dialog.
+       Not a <form>: YouTrack's sandboxed iframe blocks form submission. -->
+  <div class="modal-backdrop" id="modal" hidden>
+    <div class="modal" id="taskForm" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h2 id="modalTitle">New post</h2>
+      <label class="fld">
+        <span>Title</span>
+        <input type="text" id="fSummary" maxlength="200" placeholder="e.g. New season, new menu">
+      </label>
+      <div class="row2">
+        <label class="fld">
+          <span>Date</span>
+          <input type="date" id="fDate">
+        </label>
+        <label class="fld check" id="fIgWrap" hidden>
+          <input type="checkbox" id="fIg" checked>
+          <span id="fIgLabel">Instagram post</span>
+        </label>
+      </div>
+      <label class="fld" id="fAccountWrap" hidden>
+        <span>Instagram account</span>
+        <select id="fAccount"></select>
+      </label>
+      <label class="fld" id="fDescWrap">
+        <span>Description / caption (optional)</span>
+        <textarea id="fDesc" rows="2" placeholder="Post caption…"></textarea>
+      </label>
+      <div class="fld">
+        <span>Image</span>
+        <label class="drop" id="drop">
+          <input type="file" id="fFile" accept="image/*" hidden>
+          <img id="dropPreview" alt="" hidden>
+          <span class="drop-text" id="dropText">Drop an image or <u>browse</u></span>
+        </label>
+        <label class="check-inline" title="Adds cover_ to the file name so this image is shown in the grid">
+          <input type="checkbox" id="fCover"> Use as cover image
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn ghost" id="cancelBtn">Cancel</button>
+        <button type="button" class="btn primary" id="saveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post details -->
+  <div class="popover" id="popover" hidden>
+    <img id="popImg" alt="" hidden>
+    <div class="pop-body">
+      <div class="pop-id" id="popId"></div>
+      <div class="pop-title" id="popTitle"></div>
+      <div class="pop-date" id="popDate"></div>
+      <div class="pop-ad" id="popAd"></div>
+      <div class="pop-cover" id="popCover"></div>
+      <div class="pop-actions">
+        <button class="btn small" id="popAddImg">Add image</button>
+        <a class="btn small ghost" id="popOpen" target="_top">Open in YouTrack</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day list (posts that don't fit in the cell) -->
+  <div class="popover daypop" id="dayPop" hidden>
+    <div class="pop-body">
+      <div class="daypop-head"><b id="dayPopTitle"></b><button class="icon-btn" id="dayPopAdd" title="Add to this day">＋</button></div>
+      <div id="dayPopList" class="daypop-list"></div>
+    </div>
+  </div>
+
+  <input type="file" id="quickFile" accept="image/*" hidden>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
