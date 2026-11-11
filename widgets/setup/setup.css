@@ -1,4 +1,9 @@
 :root {
+
+}
+/* Re-resolved on every element: YouTrack may switch the theme on <html> or <body> (or any wrapper),
+   and a custom property that aliases a --ring-* variable keeps the value from where it is defined. */
+*, ::before, ::after {
   /* Ring UI variables (YouTrack theme); fallbacks are Ring UI's light values */
   --bg: var(--ring-content-background-color, #fff);
   --panel: var(--ring-content-background-color, #fff);

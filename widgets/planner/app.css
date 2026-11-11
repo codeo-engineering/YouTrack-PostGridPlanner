@@ -1,4 +1,9 @@
 :root {
+  --feedW: 340px;
+}
+/* Re-resolved on every element: YouTrack may switch the theme on <html> or <body> (or any wrapper),
+   and a custom property that aliases a --ring-* variable keeps the value from where it is defined. */
+*, ::before, ::after {
   /* Colors and metrics come from Ring UI, which YouTrack exposes inside the app frame with the
      current YouTrack theme. The fallbacks are Ring UI's light values (used only outside YouTrack). */
   --bg: var(--ring-content-background-color, #fff);
@@ -33,7 +38,6 @@
   /* Intentional Instagram accents (feed preview only) */
   --ig-pink: #dd2a7b;
   --boost: #4a5df9;
-  --feedW: 340px;
 }
 
 * { box-sizing: border-box; }
