@@ -124,7 +124,7 @@ calendar entry gets an **Ad** label. If only one of the two dates is set, the ra
 ```
 manifest.json            app manifest
 icon.svg                 app icon
-widgets/planner/         project tab (calendar + grid)
+widgets/planner/         project tab (calendar + grid); ring-variables.css holds the Ring UI theme
 widgets/setup/           Project Settings tab (field setup)
 build.py                 builds the release ZIP
 docs/images/             screenshots for this README
@@ -149,9 +149,10 @@ python3 build.py    # creates dist/ and post-grid-planner.zip
 
 Field names the planner looks for are constants at the top of `widgets/planner/app.js` and `widgets/setup/setup.js`.
 
-Colors, fonts and control sizes come from the Ring UI CSS variables that YouTrack provides inside the app frame
-(`--ring-text-color`, `--ring-main-color` and so on), so the app follows the YouTrack theme. Outside YouTrack the
-light fallbacks are used. Texts for the JetBrains Marketplace listing are in `docs/marketplace/`.
+Colors, fonts and control sizes come from Ring UI CSS variables (`--ring-text-color`, `--ring-main-color` and so on).
+YouTrack marks the current theme with the `ring-ui-theme-dark` class on `<body>` inside the app frame, and
+`ring-variables.css` (Ring UI's own light and dark variables, Apache 2.0) turns that class into the matching colors,
+so the app follows the YouTrack theme rather than the OS theme. Texts for the JetBrains Marketplace listing are in `docs/marketplace/`.
 
 ## License
 

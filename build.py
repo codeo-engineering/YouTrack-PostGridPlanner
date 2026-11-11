@@ -11,8 +11,8 @@ ROOT = pathlib.Path(__file__).resolve().parent
 DIST = ROOT / 'dist'
 OUT = ROOT / 'post-grid-planner.zip'
 FILES = ['manifest.json', 'icon.svg', 'README.md',
-         'widgets/planner/index.html', 'widgets/planner/app.css', 'widgets/planner/app.js', 'widgets/planner/icon.svg',
-         'widgets/setup/index.html', 'widgets/setup/setup.css', 'widgets/setup/setup.js', 'widgets/setup/icon.svg']
+         'widgets/planner/index.html', 'widgets/planner/ring-variables.css', 'widgets/planner/app.css', 'widgets/planner/app.js', 'widgets/planner/icon.svg',
+         'widgets/setup/index.html', 'widgets/setup/ring-variables.css', 'widgets/setup/setup.css', 'widgets/setup/setup.js', 'widgets/setup/icon.svg']
 MOCKS = {'widgets/planner/app.js': 'createMockHost', 'widgets/setup/setup.js': 'createSetupMock'}
 
 shutil.rmtree(DIST, ignore_errors=True)
