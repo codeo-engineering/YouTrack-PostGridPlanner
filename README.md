@@ -21,7 +21,8 @@ same place your team already works.
   account, just like the account switcher in Instagram.
 - **Boosted posts.** Posts whose ad is running (between Ad Start Date and Ad End Date) get a blue **Boosted** bar.
 - **One-click setup.** A Project Settings tab adds the fields the planner needs, after you confirm.
-- Light and dark themes. Plain HTML, CSS and JavaScript, no external services.
+- **Native look.** Follows the YouTrack theme (light or dark) and uses Ring UI colors and controls.
+- Plain HTML, CSS and JavaScript, no external services.
 
 ## Requirements
 
@@ -147,6 +148,10 @@ python3 build.py    # creates dist/ and post-grid-planner.zip
 ```
 
 Field names the planner looks for are constants at the top of `widgets/planner/app.js` and `widgets/setup/setup.js`.
+
+Colors, fonts and control sizes come from the Ring UI CSS variables that YouTrack provides inside the app frame
+(`--ring-text-color`, `--ring-main-color` and so on), so the app follows the YouTrack theme. Outside YouTrack the
+light fallbacks are used. Texts for the JetBrains Marketplace listing are in `docs/marketplace/`.
 
 ## License
 

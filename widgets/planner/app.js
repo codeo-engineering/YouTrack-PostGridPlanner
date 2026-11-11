@@ -55,6 +55,31 @@ const state = {
 
 const $ = (id) => document.getElementById(id);
 
+/**
+ * Native controls (date picker, selects, scrollbars) follow the YouTrack theme, not the OS theme:
+ * read the page background that comes from Ring UI's variables and set color-scheme to match.
+ * Re-checked whenever YouTrack changes the theme classes or styles in the frame.
+ */
+function syncColorScheme() {
+  const m = getComputedStyle(document.body).backgroundColor.match(/[\d.]+/g);
+  let dark = false;
+  if (m && m.length >= 3 && !(m.length > 3 && Number(m[3]) === 0)) {
+    const [r, g, b] = m.map(Number);
+    dark = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 < 0.5;
+  }
+  const scheme = dark ? 'dark' : 'light';
+  const root = document.documentElement;
+  if (root.style.colorScheme !== scheme) root.style.colorScheme = scheme;
+  if (root.dataset.theme !== scheme) root.dataset.theme = scheme;
+}
+syncColorScheme();
+{
+  const themeObserver = new MutationObserver(syncColorScheme);
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'style'] });
+  themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class', 'style'] });
+  themeObserver.observe(document.head, { childList: true, subtree: true, characterData: true });
+}
+
 /* ---------------------------------------------------------------- utils */
 
 function pad(n) { return String(n).padStart(2, '0'); }
